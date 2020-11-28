@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @Builder
@@ -35,6 +36,10 @@ public class User implements Serializable {
 
     private String storeId; //for users that belong to a store
 
+    private Date createdAt;
+
+    private Date updatedAt;
+
     public UserPublicProfile getPublicProfile(){
         return UserPublicProfile
                 .builder()
@@ -42,6 +47,7 @@ public class User implements Serializable {
                 .firstName(this.firstName)
                 .role(this.role)
                 .id(this.id)
+
                 .build();
     }
 }

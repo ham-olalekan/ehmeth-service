@@ -1,6 +1,6 @@
 package com.ehmeth.co.uk.service;
 
-import com.ehmeth.co.uk.db.models.product.SellerSignupRequest;
+import com.ehmeth.co.uk.db.models.store.SellerSignupRequest;
 import com.ehmeth.co.uk.db.models.store.Store;
 
 import java.util.Optional;

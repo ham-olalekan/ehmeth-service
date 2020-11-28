@@ -1,8 +1,5 @@
 package com.ehmeth.co.uk.db.models.store;
 
-import com.ehmeth.co.uk.db.models.Address;
-import com.ehmeth.co.uk.db.models.product.Product;
-import com.ehmeth.co.uk.db.models.User.User;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -11,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 @Data
 @Builder
@@ -49,7 +45,7 @@ public class Store implements Serializable {
 
     private Date updatedAt;
 
-    public StorePublicInfo getPublicInfo(){
+    public StorePublicInfo getPublicInfo() {
         return StorePublicInfo
                 .builder()
                 .storeId(this.id)

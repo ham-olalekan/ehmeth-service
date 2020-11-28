@@ -84,7 +84,6 @@ public class JwtFilter extends GenericFilterBean {
                     return;
                 }
 
-                System.out.println(" claims => " + claims);
                 setSecurityContext(claims);
 
             } catch (final SignatureException e) {

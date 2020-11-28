@@ -29,4 +29,8 @@ public class Product {
 
     private ProductType productType;
 
+    private ProductPricingType pricingType;
+
+    private int priceValue;
+
 }

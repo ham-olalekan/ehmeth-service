@@ -1,4 +1,4 @@
-package com.ehmeth.co.uk.db.models.product;
+package com.ehmeth.co.uk.db.models.store;
 
 import lombok.Data;
 
