@@ -4,7 +4,7 @@ import com.ehmeth.co.uk.Exceptions.BadRequestException;
 import com.ehmeth.co.uk.db.models.Address;
 import com.ehmeth.co.uk.db.models.User.User;
 import com.ehmeth.co.uk.db.models.User.UserRole;
-import com.ehmeth.co.uk.db.models.product.SellerSignupRequest;
+import com.ehmeth.co.uk.db.models.store.SellerSignupRequest;
 import com.ehmeth.co.uk.db.models.store.AccountType;
 import com.ehmeth.co.uk.db.models.store.Store;
 import com.ehmeth.co.uk.db.models.store.StoreStatus;
@@ -15,7 +15,6 @@ import com.ehmeth.co.uk.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;

@@ -1,7 +1,7 @@
 package com.ehmeth.co.uk.controller.stores;
 
 import com.ehmeth.co.uk.controller.resources.ApiResponseJson;
-import com.ehmeth.co.uk.db.models.product.SellerSignupRequest;
+import com.ehmeth.co.uk.db.models.store.SellerSignupRequest;
 import com.ehmeth.co.uk.service.StoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
