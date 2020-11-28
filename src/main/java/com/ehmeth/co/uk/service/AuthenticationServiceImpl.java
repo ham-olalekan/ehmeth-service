@@ -43,10 +43,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         Store store = storeService.findByStoreId(user.getStoreId()).orElseThrow(() -> new NotFoundException("User does not belong to a store"));
         Map<Object, Object> loginResponse = new HashMap<>();
+        AuthToken token = createAuthTokenForUser(user);
+        loginResponse.put("authToken", token);
+        loginResponse.put("profile", user.getPublicProfile());
         if (!user.getRole().isGlobalAdmin()) {
-            AuthToken token = createAuthTokenForUser(user);
-            loginResponse.put("authToken", token);
-            loginResponse.put("profile", user.getPublicProfile());
             loginResponse.put("store", store.getPublicInfo());
         }
         return loginResponse;
@@ -56,6 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Claims claims = Jwts.claims();
         String role = user.getRole().name();
         claims.put("roles", role);
+        claims.put("userId", user.getId());
         Date creationDate = Calendar.getInstance().getTime();
         //expires after a day
         Date expiry = DateUtil.addDaysToDate(creationDate, 1);

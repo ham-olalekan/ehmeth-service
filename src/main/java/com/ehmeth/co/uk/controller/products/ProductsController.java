@@ -1,4 +1,4 @@
-package com.ehmeth.co.uk.controller;
+package com.ehmeth.co.uk.controller.products;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

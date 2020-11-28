@@ -26,7 +26,7 @@ public class AuthenticationController {
     @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<ApiResponseJson> handleUserLogin(@RequestBody LoginRequest loginRequest) {
-        log.info("Attempting to login user with request {}", loginRequest);
-        return new ResponseEntity(new ApiResponseJson(true, "login sucessful", authenticationService.loginUser(loginRequest)), HttpStatus.OK);
+        log.info("Attempting to login user with request {}", loginRequest.getEmail());
+        return new ResponseEntity(new ApiResponseJson(true, "login successful", authenticationService.loginUser(loginRequest)), HttpStatus.OK);
     }
 }

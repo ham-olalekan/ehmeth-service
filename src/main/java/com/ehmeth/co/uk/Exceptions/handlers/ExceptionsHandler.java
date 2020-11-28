@@ -50,15 +50,4 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ApiResponseJson<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UnsupportedCurrencyException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> handleUnsupportedCurrencyException(final UnsupportedCurrencyException ex) {
-        return new ResponseEntity<>(new ApiResponseJson<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(InsufficientFundExceptions.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> handleInsufficientFundExceptionsException(final InsufficientFundExceptions ex) {
-        return new ResponseEntity<>(new ApiResponseJson<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
-    }
 }

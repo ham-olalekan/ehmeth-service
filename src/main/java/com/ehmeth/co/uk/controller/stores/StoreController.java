@@ -1,4 +1,4 @@
-package com.ehmeth.co.uk.controller;
+package com.ehmeth.co.uk.controller.stores;
 
 import com.ehmeth.co.uk.controller.resources.ApiResponseJson;
 import com.ehmeth.co.uk.db.models.product.SellerSignupRequest;
