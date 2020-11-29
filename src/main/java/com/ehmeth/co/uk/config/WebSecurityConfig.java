@@ -27,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/user/buyer/sign-up").permitAll()
                 .antMatchers("/category/create").permitAll()
                 .antMatchers("/category/sub-category/*/create").permitAll()
+                .antMatchers(HttpMethod.POST,"/products/add-new").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

@@ -9,4 +9,7 @@ public enum UserRole {
     public boolean isGlobalAdmin() {
         return this == GLOBAL_ADMIN;
     }
+    public boolean isBuyer(){
+        return this == BUYER;
+    }
 }

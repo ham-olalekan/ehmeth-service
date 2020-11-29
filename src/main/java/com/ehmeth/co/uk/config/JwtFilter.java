@@ -35,7 +35,8 @@ public class JwtFilter extends GenericFilterBean {
     private final String jwtSigningKey;
 
     private static final List<AntPathRequestMatcher> authPathMatchers = Collections.unmodifiableList(
-            Arrays.asList(new AntPathRequestMatcher("/admin/store/*/account"))
+            Arrays.asList(new AntPathRequestMatcher("/admin/store/*/account"),
+                    new AntPathRequestMatcher("/products/add-new"))
     );
 
     public JwtFilter(String jwtSigningKey) {
