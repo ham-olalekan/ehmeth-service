@@ -48,4 +48,11 @@ public class ProductsController {
         //log.info("List of products in Store: {}",storeId);
         return new ResponseEntity(new ApiResponseJson(true, "successful", productService.fetchStoreProducts(page,size, storeId)), HttpStatus.OK);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponseJson> handleGettingOfAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                                      @RequestParam(name = "size", defaultValue = "20") int size){
+        //log.info("List of all products");
+        return new ResponseEntity(new ApiResponseJson(true, "successful", productService.fetchAllProducts(page, size)), HttpStatus.OK);
+    }
 }

@@ -1,6 +1,7 @@
 package com.ehmeth.co.uk.service;
 
 import com.ehmeth.co.uk.Exceptions.NotFoundException;
+import com.ehmeth.co.uk.db.models.ProductCategory;
 import com.ehmeth.co.uk.db.models.product.Product;
 import com.ehmeth.co.uk.db.models.store.Store;
 import com.ehmeth.co.uk.db.repository.ProductRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -55,5 +57,20 @@ public class ProductServiceImpl implements ProductService {
         storeProductPage.put("totalPages", productPage.getTotalPages());
         storeProductPage.put("products", productPage.getContent());
         return storeProductPage;
+    }
+
+    public Map<Object, Object> fetchAllProducts(final int page,
+                                                final int size){
+
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
+        Page<Product> productPages = productRepository.findAll(pageRequest);
+
+        Map<Object, Object> productPage = new HashMap<>();
+
+        productPage.put("totalProducts", productPages.getTotalElements());
+        productPage.put("totalProductsOnPage", productPages.getNumberOfElements());
+        productPage.put("totalPages", productPages.getTotalPages());
+        productPage.put("products", productPages.getContent());
+        return productPage;
     }
 }
