@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -26,6 +27,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public ProductCategory createCategory(ProductCategory request) {
+        request.setCreatedAt(new Date());
+        request.setUpdatedAt(new Date());
         return productCategoryRepository.save(request);
     }
 
@@ -36,6 +39,8 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new NotFoundException("Invalid category id [" + categoryId + "]"));
 
         subCategory.setCategoryId(categoryId);
+        subCategory.setCreatedAt(new Date());
+        subCategory.setUpdatedAt(new Date());
         return productSubCategoryRepository.save(subCategory);
     }
 
