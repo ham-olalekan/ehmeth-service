@@ -9,10 +9,7 @@ import com.ehmeth.co.uk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -44,4 +41,18 @@ public class ProductsController {
         return new ResponseEntity(new ApiResponseJson(true, "successful", productService.AddProduct(user.getStoreId(), product)), HttpStatus.OK);
     }
 
+    @GetMapping("/{storeId}/products")
+    public ResponseEntity<ApiResponseJson> handleAddingProductsForSeller(@PathVariable("storeId") final String storeId,
+                                                                         @RequestParam(name = "page",defaultValue = "0") int page,
+                                                                         @RequestParam(name = "size", defaultValue = "20") int size) {
+        //log.info("List of products in Store: {}",storeId);
+        return new ResponseEntity(new ApiResponseJson(true, "successful", productService.fetchStoreProducts(page,size, storeId)), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponseJson> handleGettingOfAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                                      @RequestParam(name = "size", defaultValue = "20") int size){
+        //log.info("List of all products");
+        return new ResponseEntity(new ApiResponseJson(true, "successful", productService.fetchAllProducts(page, size)), HttpStatus.OK);
+    }
 }

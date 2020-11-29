@@ -48,7 +48,7 @@ public class Store implements Serializable {
     public StorePublicInfo getPublicInfo() {
         return StorePublicInfo
                 .builder()
-                .storeId(this.id)
+                .storeId(this.storeId)
                 .storeName(this.storeName)
                 .build();
     }
