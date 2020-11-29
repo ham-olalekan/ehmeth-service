@@ -2,8 +2,10 @@ package com.ehmeth.co.uk.db.models.product;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -32,5 +34,17 @@ public class Product {
     private ProductPricingType pricingType;
 
     private int priceValue;
+
+    private String storeId;
+
+    @Indexed
+    private String categoryId;
+
+    @Indexed
+    private String subCategoryId;
+
+    private Date createdAt;
+
+    private Date updatedAt;
 
 }
