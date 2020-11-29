@@ -8,11 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -36,6 +32,18 @@ public class CategoryController {
     public ResponseEntity<ApiResponseJson> handleCreationOfSubCategory(@PathVariable("categoryId") final String categoryId, @RequestBody ProductSubCategory request) {
         log.info("Creating new sub-category for category: {} ; request {}",categoryId, request);
         return new ResponseEntity(new ApiResponseJson(true, "successful", categoryService.addSubCategory(categoryId,request)), HttpStatus.OK);
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<ApiResponseJson> FetchingAllCategories() {
+        log.info("List of categories");
+        return new ResponseEntity(new ApiResponseJson(true, "successful", categoryService.fetchAllCategories()), HttpStatus.OK);
+    }
+
+    @GetMapping("/{categoryId}/sub-categories")
+    public ResponseEntity<ApiResponseJson> FetchingAllSubCategories(@PathVariable("categoryId") final String categoryId) {
+        log.info("List of sub-categories in category: {}",categoryId);
+        return new ResponseEntity(new ApiResponseJson(true, "successful", categoryService.fetchSubCategoriesForCategory(categoryId)), HttpStatus.OK);
     }
 
 }
