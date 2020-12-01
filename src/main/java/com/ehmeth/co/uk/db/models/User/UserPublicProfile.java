@@ -16,8 +16,6 @@ public class UserPublicProfile {
     private String id;
     private String address;
     private UserRole role;
-    private Date createdAt;
-    private Date updatedAt;
 
     public UserPublicProfile() {
     }
@@ -26,15 +24,11 @@ public class UserPublicProfile {
                              String firstName,
                              String id,
                              String address,
-                             UserRole role,
-                             Date createdAt,
-                             Date updatedAt) {
+                             UserRole role) {
         this.email = email;
         this.firstName = firstName;
         this.id = id;
         this.address = address;
         this.role = role;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 }

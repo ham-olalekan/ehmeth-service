@@ -34,7 +34,7 @@ public class CategoryController {
         return new ResponseEntity(new ApiResponseJson(true, "successful", categoryService.addSubCategory(categoryId,request)), HttpStatus.OK);
     }
 
-    @GetMapping("/categories")
+    @GetMapping("")
     public ResponseEntity<ApiResponseJson> FetchingAllCategories() {
         log.info("List of categories");
         return new ResponseEntity(new ApiResponseJson(true, "successful", categoryService.fetchAllCategories()), HttpStatus.OK);
