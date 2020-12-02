@@ -15,4 +15,6 @@ public interface ProductService {
     Map<Object, Object> fetchAllProducts(final int page,
                                          final int size);
 
+    Product editProduct(String productId,
+                        Product product);
 }

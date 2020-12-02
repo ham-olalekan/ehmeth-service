@@ -1,10 +1,10 @@
 package com.ehmeth.co.uk.service;
 
 import com.ehmeth.co.uk.Exceptions.NotFoundException;
-import com.ehmeth.co.uk.db.models.ProductCategory;
 import com.ehmeth.co.uk.db.models.product.Product;
 import com.ehmeth.co.uk.db.models.store.Store;
 import com.ehmeth.co.uk.db.repository.ProductRepository;
+import com.ehmeth.co.uk.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -60,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public Map<Object, Object> fetchAllProducts(final int page,
-                                                final int size){
+                                                final int size) {
 
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
         Page<Product> productPages = productRepository.findAll(pageRequest);
@@ -72,5 +71,36 @@ public class ProductServiceImpl implements ProductService {
         productPage.put("totalPages", productPages.getTotalPages());
         productPage.put("products", productPages.getContent());
         return productPage;
+    }
+
+    @Override
+    public Product editProduct(String productId,
+                               Product product) {
+        Product oldProductRecord = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product with id [" + productId + "] was not found"));
+
+        if (!StringUtil.isBlank(product.getDescription())) {
+            oldProductRecord.setDescription(product.getDescription());
+        }
+        if (!StringUtil.isBlank(product.getEnglishName())) {
+            oldProductRecord.setEnglishName(product.getEnglishName());
+        }
+        if (!StringUtil.isBlank(product.getLocalName())) {
+            oldProductRecord.setLocalName(product.getLocalName());
+        }
+        if (!StringUtil.isBlank(String.valueOf(product.getMinimumPurchase()))) {
+            oldProductRecord.setMinimumPurchase(product.getMinimumPurchase());
+        }
+        if (!StringUtil.isBlank(String.valueOf(product.getQuantity()))) {
+            oldProductRecord.setQuantity(product.getQuantity());
+        }
+        if (!StringUtil.isBlank(product.getProductType().name())) {
+            oldProductRecord.setProductType(product.getProductType());
+        }
+        return update(oldProductRecord);
+    }
+
+    public Product update(Product product){
+        product.setUpdatedAt(new Date());
+        return productRepository.save(product);
     }
 }
