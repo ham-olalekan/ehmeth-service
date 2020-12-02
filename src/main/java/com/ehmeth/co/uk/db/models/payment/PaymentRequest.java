@@ -3,7 +3,7 @@ package com.ehmeth.co.uk.db.models.payment;
 import lombok.Data;
 
 @Data
-public class ChargeRequest {
+public class PaymentRequest {
     public enum Currency {
         EUR, USD;
     }
