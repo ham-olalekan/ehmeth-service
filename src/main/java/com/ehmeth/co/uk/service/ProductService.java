@@ -1,8 +1,8 @@
 package com.ehmeth.co.uk.service;
 
 import com.ehmeth.co.uk.db.models.product.Product;
+import com.ehmeth.co.uk.db.models.product.ProductPageModel;
 
-import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
@@ -14,5 +14,9 @@ public interface ProductService {
 
     Map<Object, Object> fetchAllProducts(final int page,
                                          final int size);
+
+    ProductPageModel productToPageModel(Product product);
+
+    ProductPageModel fetchProductModel(String productId);
 
 }
