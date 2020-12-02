@@ -5,6 +5,7 @@ import com.ehmeth.co.uk.db.models.product.Product;
 import com.ehmeth.co.uk.db.models.product.ProductPageModel;
 import com.ehmeth.co.uk.db.models.store.Store;
 import com.ehmeth.co.uk.db.repository.ProductRepository;
+import com.ehmeth.co.uk.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -106,5 +107,34 @@ public class ProductServiceImpl implements ProductService {
         return productToPageModel(productOption);
     }
 
+    @Override
+    public Product editProduct(String productId,
+                               Product product) {
+        Product oldProductRecord = productRepository.findById(productId).orElseThrow(() -> new NotFoundException("Product with id [" + productId + "] was not found"));
 
+        if (!StringUtil.isBlank(product.getDescription())) {
+            oldProductRecord.setDescription(product.getDescription());
+        }
+        if (!StringUtil.isBlank(product.getEnglishName())) {
+            oldProductRecord.setEnglishName(product.getEnglishName());
+        }
+        if (!StringUtil.isBlank(product.getLocalName())) {
+            oldProductRecord.setLocalName(product.getLocalName());
+        }
+        if (!StringUtil.isBlank(String.valueOf(product.getMinimumPurchase()))) {
+            oldProductRecord.setMinimumPurchase(product.getMinimumPurchase());
+        }
+        if (!StringUtil.isBlank(String.valueOf(product.getQuantity()))) {
+            oldProductRecord.setQuantity(product.getQuantity());
+        }
+        if (!StringUtil.isBlank(product.getProductType().name())) {
+            oldProductRecord.setProductType(product.getProductType());
+        }
+        return update(oldProductRecord);
+    }
+
+    public Product update(Product product){
+        product.setUpdatedAt(new Date());
+        return productRepository.save(product);
+    }
 }
