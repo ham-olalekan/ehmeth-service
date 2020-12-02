@@ -57,10 +57,23 @@ public class ProductsController {
         return new ResponseEntity(new ApiResponseJson(true, "successful", productService.fetchProductModel(productId)), HttpStatus.OK);
     }
 
-        @GetMapping("/all")
+    @GetMapping("/all")
     public ResponseEntity<ApiResponseJson> handleGettingOfAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
                                                                       @RequestParam(name = "size", defaultValue = "20") int size){
         log.info("List of all products");
         return new ResponseEntity(new ApiResponseJson(true, "successful", productService.fetchAllProducts(page, size)), HttpStatus.OK);
+    }
+
+    @PutMapping("/{productId}/edit")
+    public ResponseEntity<ApiResponseJson> handleEditingOfProduct(Principal principal,
+                                                                  @PathVariable("productId") String productId,
+                                                                  @RequestBody Product product) {
+        log.info("Attempting to update product {}", product);
+        String userId = principal.getName();
+        User user = userService.getUserById(userId);
+        if (user.getStoreId() != product.getStoreId()) {
+            return new ResponseEntity(new ApiResponseJson(false, "Un-authurized to edit product info", null), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ApiResponseJson(true, "successful", productService.editProduct(productId, product)), HttpStatus.OK);
     }
 }

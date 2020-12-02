@@ -19,4 +19,7 @@ public interface ProductService {
 
     ProductPageModel fetchProductModel(String productId);
 
+    Product editProduct(String productId,
+                        Product product);
+
 }
