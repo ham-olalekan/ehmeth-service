@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -144,5 +143,10 @@ public class ProductServiceImpl implements ProductService {
     public Product update(Product product) {
         product.setUpdatedAt(new Date());
         return productRepository.save(product);
+    }
+
+    @Override
+    public Optional<Product> getById(String productId) {
+        return productRepository.findById(productId);
     }
 }
