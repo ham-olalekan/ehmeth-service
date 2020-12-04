@@ -4,6 +4,7 @@ import com.ehmeth.co.uk.db.models.product.Product;
 import com.ehmeth.co.uk.db.models.product.ProductPageModel;
 
 import java.util.Map;
+import java.util.Optional;
 
 public interface ProductService {
     Product AddProduct(final String storeId, Product product);
@@ -21,5 +22,5 @@ public interface ProductService {
 
     Product editProduct(String productId,
                         Product product);
-
+    Optional<Product> getById(final String productId);
 }
