@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @AllArgsConstructor
@@ -41,13 +42,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new BadRequestException("Invalid  email or password");
         }
 
-        Store store = storeService.findByStoreId(user.getStoreId()).orElseThrow(() -> new NotFoundException("User does not belong to a store"));
+        Optional<Store> store = storeService.findByStoreId(user.getStoreId());
         Map<Object, Object> loginResponse = new HashMap<>();
         AuthToken token = createAuthTokenForUser(user);
         loginResponse.put("authToken", token);
         loginResponse.put("profile", user.getPublicProfile());
-        if (!user.getRole().isGlobalAdmin()) {
-            loginResponse.put("store", store.getPublicInfo());
+        if (store.isPresent()) {
+            loginResponse.put("store", store.get().getPublicInfo());
         }
         return loginResponse;
     }

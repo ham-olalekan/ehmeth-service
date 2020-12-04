@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class Product {
 
     private ProductPricingType pricingType;
 
-    private int priceValue;
+    private BigDecimal priceValue;
 
     private String storeId;
 
@@ -47,4 +49,9 @@ public class Product {
 
     private Date updatedAt;
 
+    public List<String> getProductImages() {
+        if (this.productImages == null)
+            return new ArrayList<>();
+        return this.productImages;
+    }
 }
