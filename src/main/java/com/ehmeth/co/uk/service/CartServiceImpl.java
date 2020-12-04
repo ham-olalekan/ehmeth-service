@@ -7,13 +7,13 @@ import com.ehmeth.co.uk.db.models.cart.CartItemModel;
 import com.ehmeth.co.uk.db.models.product.ProductPageModel;
 import com.ehmeth.co.uk.db.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service
+@Component
 public class CartServiceImpl implements CartService {
 
     private CartItemRepository cartItemRepository;

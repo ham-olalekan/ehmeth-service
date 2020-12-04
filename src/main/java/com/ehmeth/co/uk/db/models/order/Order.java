@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -18,6 +19,12 @@ public class Order implements Serializable {
 
     @Indexed
     private String userId;
+
+    private BigDecimal processingFee;
+
+    private BigDecimal shippingFee;
+
+    private BigDecimal vat;
 
     private List<OrderItem> orderItems;
 

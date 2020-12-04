@@ -39,6 +39,10 @@ public class Product {
 
     private String storeId;
 
+    private String categoryName;
+
+    private String subCategoryName;
+
     @Indexed
     private String categoryId;
 
