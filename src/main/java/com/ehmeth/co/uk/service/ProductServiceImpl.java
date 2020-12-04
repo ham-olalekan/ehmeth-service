@@ -4,12 +4,15 @@ import com.ehmeth.co.uk.Exceptions.NotFoundException;
 import com.ehmeth.co.uk.db.models.product.Product;
 import com.ehmeth.co.uk.db.models.product.ProductPageModel;
 import com.ehmeth.co.uk.db.models.store.Store;
+import com.ehmeth.co.uk.db.repository.ProductCategoryRepository;
 import com.ehmeth.co.uk.db.repository.ProductRepository;
+import com.ehmeth.co.uk.db.repository.ProductSubCategoryRepository;
 import com.ehmeth.co.uk.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,15 +27,18 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
     private StoreService storeService;
-
-    private List<ProductPageModel> productPageModels;
+    private ProductCategoryRepository repo;
+    private ProductSubCategoryRepository subCategoryRepository;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,
-                              StoreService storeService) {
+                              StoreService storeService,
+                              ProductCategoryRepository category,
+                              ProductSubCategoryRepository subCategoryRepository) {
         this.productRepository = productRepository;
         this.storeService = storeService;
-        this.productPageModels = new ArrayList<>();
+        this.repo = category;
+        this.subCategoryRepository = subCategoryRepository;
     }
 
     @Override
@@ -53,13 +59,15 @@ public class ProductServiceImpl implements ProductService {
         Store store = storeService
                 .findByStoreId(storeId)
                 .orElseThrow(() -> new NotFoundException("store not found for ID [" + storeId + "]"));
+
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
+
         Page<Product> productPage = productRepository.findByStoreId(storeId, pageRequest);
         Map<Object, Object> storeProductPage = new HashMap<>();
         storeProductPage.put("totalProducts", productPage.getTotalElements());
         storeProductPage.put("totalProductsOnPage", productPage.getNumberOfElements());
         storeProductPage.put("totalPages", productPage.getTotalPages());
-        storeProductPage.put("products", productPageModels);
+        storeProductPage.put("products", productPage.getContent());
         return storeProductPage;
     }
 
@@ -68,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
 
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
         Page<Product> productPages = productRepository.findAll(pageRequest);
-
+        List<ProductPageModel> productPageModels = new ArrayList<>();
         Map<Object, Object> productPage = new HashMap<>();
         productPage.put("totalProducts", productPages.getTotalElements());
         productPage.put("totalProductsOnPage", productPages.getNumberOfElements());
@@ -133,7 +141,7 @@ public class ProductServiceImpl implements ProductService {
         return update(oldProductRecord);
     }
 
-    public Product update(Product product){
+    public Product update(Product product) {
         product.setUpdatedAt(new Date());
         return productRepository.save(product);
     }

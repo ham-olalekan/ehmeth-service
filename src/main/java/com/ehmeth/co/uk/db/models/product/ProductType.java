@@ -1,5 +1,8 @@
 package com.ehmeth.co.uk.db.models.product;
 
+import lombok.Getter;
+
+@Getter
 public enum ProductType {
     ORGANIC("Organic"),
     INORGANIC("Inorganic");
