@@ -4,6 +4,7 @@ import com.ehmeth.co.uk.db.models.User.User;
 import com.ehmeth.co.uk.db.models.cart.CartItemModel;
 import com.ehmeth.co.uk.db.models.order.Order;
 import com.ehmeth.co.uk.db.models.order.OrderItem;
+import com.ehmeth.co.uk.db.models.order.OrderItemStatus;
 import com.ehmeth.co.uk.db.models.store.Store;
 
 import java.util.List;
@@ -15,7 +16,8 @@ public interface OrderService {
     Map<Object, Object> fetchStoreOrders(Store store,
                                          int page,
                                          int size,
-                                         String direction);
+                                         String direction,
+                                         OrderItemStatus status);
 
     Map<Object, Object> fetchBuyerOrders(User user,
                                          int page,

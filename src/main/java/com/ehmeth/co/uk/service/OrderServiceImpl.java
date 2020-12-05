@@ -123,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
      * @param orderItem
      * @return
      */
-    public OrderItem updateOrderItem(OrderItem orderItem){
+    public OrderItem updateOrderItem(OrderItem orderItem) {
         orderItem.setUpdatedAt(new Date());
         return orderItemRepository.save(orderItem);
     }
@@ -174,9 +174,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Map<Object, Object> fetchStoreOrders(Store store,
-                                            int page,
-                                            int size,
-                                            String direction) {
+                                                int page,
+                                                int size,
+                                                String direction,
+                                                OrderItemStatus status) {
 
         Sort.Direction dir;
         if ("asc".equalsIgnoreCase(direction)) {
@@ -186,13 +187,17 @@ public class OrderServiceImpl implements OrderService {
         }
 
         PageRequest request = PageRequest.of(page, size, Sort.by(dir, "updatedAt"));
-        Page<OrderItem> storeOrdersPage = orderItemRepository.findByStoreId(store.getStoreId(), request);
+        Page<OrderItem> storeOrdersPage;
+        if (status == null) {
+            storeOrdersPage = orderItemRepository.findByStoreId(store.getStoreId(), request);
+        } else {
+            storeOrdersPage = orderItemRepository.findByStoreIdAndStatus(store.getStoreId(), status, request);
+        }
         Map<Object, Object> storeProductPage = new HashMap<>();
         storeProductPage.put("totalStoreOrders", storeOrdersPage.getTotalElements());
         storeProductPage.put("totalOrdersOnPage", storeOrdersPage.getNumberOfElements());
         storeProductPage.put("totalPages", storeOrdersPage.getTotalPages());
         storeProductPage.put("orders", storeOrdersPage.getContent());
-
         return storeProductPage;
     }
 
@@ -216,6 +221,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItem OrderItemById(String orderItemId) {
-        return orderItemRepository.findById(orderItemId).orElseThrow(()-> new NotFoundException("orderItem with ID:["+orderItemId+"] was not found"));
+        return orderItemRepository.findById(orderItemId).orElseThrow(() -> new NotFoundException("orderItem with ID:[" + orderItemId + "] was not found"));
     }
 }
