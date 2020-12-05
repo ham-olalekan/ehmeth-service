@@ -134,8 +134,8 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     private String generateAlphaNumericString() {
-        String alphaString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String numericString = "0123456789";
+        String alphaString = "ABCDEFGHIJKLMNPQRSTUVWXYZ";
+        String numericString = "123456789";
 
         StringBuilder alphaNumericString = new StringBuilder(6);
 
