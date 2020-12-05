@@ -95,6 +95,7 @@ public class ProductServiceImpl implements ProductService {
         } else {
             storeName = store.get().getStoreName();
         }
+
         return new ProductPageModel(
                 product.getId(),
                 storeName,
@@ -102,6 +103,9 @@ public class ProductServiceImpl implements ProductService {
                 product.getEnglishName(),
                 product.getPricingType().getPrettyName(),
                 "image.jpeg",
+                product.getCategoryName(),
+                product.getCategoryId(),
+                product.getDescription(),
                 product.getPriceValue(),
                 0,
                 product.getQuantity()
