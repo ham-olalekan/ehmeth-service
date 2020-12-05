@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setOrderItems(orderItems);
         order = orderRepository.save(order);
-        publisher.publishEvent(new OrderCreationEvent(this, order));q
+        publisher.publishEvent(new OrderCreationEvent(this, order));
         return order;
     }
 
