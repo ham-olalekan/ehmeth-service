@@ -46,6 +46,6 @@ public class AdminController {
         Store store = storeService.findByStoreId(storeId).orElseThrow(() -> new NotFoundException("Store with Id [" + storeId + "] was not found"));
         store.setStoreStatus(status);
         storeService.update(store);
-        return new ResponseEntity(new ApiResponseJson(true, "successul", store), HttpStatus.OK);
+        return new ResponseEntity(new ApiResponseJson(true, "successful", store), HttpStatus.OK);
     }
 }

@@ -32,7 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/category").permitAll()
                 .antMatchers("/category/*/sub-categories").permitAll()
                 .antMatchers("/products/all").permitAll()
+                .antMatchers("/cart").permitAll()
                 .antMatchers("/products/*/edit").permitAll()
+                .antMatchers("/order").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

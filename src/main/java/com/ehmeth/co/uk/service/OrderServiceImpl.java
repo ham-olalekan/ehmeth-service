@@ -33,10 +33,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     public OrderServiceImpl(ProductService productService,
                             OrderRepository orderRepository,
-                            OrderItemRepository orderItemRepository) {
+                            OrderItemRepository orderItemRepository,
+                            ApplicationEventPublisher publisher) {
         this.productService = productService;
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
+        this.publisher = publisher;
     }
 
     @Override
@@ -51,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setOrderItems(orderItems);
         order = orderRepository.save(order);
-        publisher.publishEvent(new OrderCreationEvent(this, order));
+        publisher.publishEvent(new OrderCreationEvent(this, order));q
         return order;
     }
 
@@ -118,10 +120,37 @@ public class OrderServiceImpl implements OrderService {
         String orderId;
         Order existingOrder;
         do {
-            orderId = String.valueOf(Math.random());
+            orderId = generateAlphaNumericString();
             existingOrder = orderRepository.findByOrderId(orderId);
         } while (Objects.nonNull(existingOrder));
 
         return orderId;
+    }
+
+
+    /**
+     *Generates an alphanumeric string
+     *
+     * @return
+     */
+    private String generateAlphaNumericString() {
+        String alphaString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String numericString = "0123456789";
+
+        StringBuilder alphaNumericString = new StringBuilder(6);
+
+        for (int i = 0; i < 3; i++) {
+            int index = (int)(alphaString.length()
+                    * Math.random());
+            alphaNumericString.append(alphaString
+                    .charAt(index));
+        }
+        for (int i = 0; i < 3; i++) {
+            int index = (int)(numericString.length()
+                    * Math.random());
+            alphaNumericString.append(numericString
+                    .charAt(index));
+        }
+        return alphaNumericString.toString();
     }
 }
