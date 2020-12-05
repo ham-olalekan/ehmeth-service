@@ -52,6 +52,7 @@ public class CartServiceImpl implements CartService {
      */
     private CartItemModel cartItemToModel(ProductPageModel productPageModel) {
         return new CartItemModel(
+                productPageModel.getId(),
                 productPageModel.getEnglishName(),
                 productPageModel.getImageUrl(),
                 productPageModel.getPricingType(),
@@ -93,7 +94,7 @@ public class CartServiceImpl implements CartService {
      */
     public CartItemModel cartItemToModel(CartItem cartItem) {
         ProductPageModel productPageModel = productService.fetchProductModel(cartItem.getProductId());
-        return new CartItemModel(
+        return new CartItemModel(productPageModel.getId(),
                 productPageModel.getEnglishName(),
                 productPageModel.getImageUrl(),
                 productPageModel.getPricingType(),
@@ -106,5 +107,10 @@ public class CartServiceImpl implements CartService {
     public Cart getUserCart(String userId) {
         List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
         return new Cart(cartItemsToCartItemModel(cartItems));
+    }
+
+    @Override
+    public void deleteAll(List<CartItem> cartItems) {
+        cartItemRepository.deleteAll(cartItems);
     }
 }
