@@ -6,6 +6,8 @@ import com.ehmeth.co.uk.controller.resources.ApiResponseJson;
 import com.ehmeth.co.uk.db.models.User.User;
 import com.ehmeth.co.uk.db.models.cart.CartItemModel;
 import com.ehmeth.co.uk.db.models.order.Order;
+import com.ehmeth.co.uk.db.models.order.OrderItem;
+import com.ehmeth.co.uk.db.models.order.OrderItemStatus;
 import com.ehmeth.co.uk.db.models.store.Store;
 import com.ehmeth.co.uk.service.OrderService;
 import com.ehmeth.co.uk.service.StoreService;
@@ -15,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,5 +84,19 @@ public class OrderController {
             return new ResponseEntity(new ApiResponseJson(false, "Un-Authorized", null), HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity(new ApiResponseJson(true, "successful", orderService.fetchBuyerOrders(user, page, size, direction)), HttpStatus.OK);
+    }
+
+    @PutMapping("/{orderItemId}/status")
+    public ResponseEntity<ApiResponseJson> handleUpdatingOrderStatus(Principal principal,
+                                                                     @PathVariable("orderItemId") final String orderItemId,
+                                                                     @RequestParam("orderStatus") OrderItemStatus status) {
+        String userId = principal.getName();
+        User user = userService.getUserById(userId);
+        if (!user.getRole().isSeller()) {
+            return new ResponseEntity(new ApiResponseJson(false, "Un-Authorized", null), HttpStatus.UNAUTHORIZED);
+        }
+        OrderItem orderItem = orderService.OrderItemById(orderItemId);
+        orderItem.setStatus(status);
+        return new ResponseEntity(new ApiResponseJson(true, "successful", orderService.updateOrderItem(orderItem)), HttpStatus.OK);
     }
 }

@@ -95,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
         orderItem.setPricingType(cartItemModel.getPricingType());
         orderItem.setProductImage(cartItemModel.getProductImage());
         orderItem.setProductName(cartItemModel.getProductName());
-        orderItem.setStatus(OrderItemStatus.PENDING);
+        orderItem.setStatus(OrderItemStatus.AWAITING_APPROVAL);
         orderItem.setUnitPrice(cartItemModel.getUnitPrice());
         orderItem.setQuantity(cartItemModel.getQuantity());
         orderItem.setSubTotal(cartItemModel.getUnitPrice().multiply(BigDecimal.valueOf(cartItemModel.getQuantity())));
@@ -115,6 +115,17 @@ public class OrderServiceImpl implements OrderService {
     public Order update(Order order) {
         order.setUpdatedAt(new Date());
         return orderRepository.save(order);
+    }
+
+    /**
+     * updates an order Item
+     *
+     * @param orderItem
+     * @return
+     */
+    public OrderItem updateOrderItem(OrderItem orderItem){
+        orderItem.setUpdatedAt(new Date());
+        return orderItemRepository.save(orderItem);
     }
 
     /**
@@ -201,5 +212,10 @@ public class OrderServiceImpl implements OrderService {
         buyerOrderPage.put("totalPages", userOrder.getTotalPages());
         buyerOrderPage.put("orders", userOrder.getContent());
         return buyerOrderPage;
+    }
+
+    @Override
+    public OrderItem OrderItemById(String orderItemId) {
+        return orderItemRepository.findById(orderItemId).orElseThrow(()-> new NotFoundException("orderItem with ID:["+orderItemId+"] was not found"));
     }
 }

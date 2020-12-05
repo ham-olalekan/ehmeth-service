@@ -3,6 +3,7 @@ package com.ehmeth.co.uk.service;
 import com.ehmeth.co.uk.db.models.User.User;
 import com.ehmeth.co.uk.db.models.cart.CartItemModel;
 import com.ehmeth.co.uk.db.models.order.Order;
+import com.ehmeth.co.uk.db.models.order.OrderItem;
 import com.ehmeth.co.uk.db.models.store.Store;
 
 import java.util.List;
@@ -17,7 +18,11 @@ public interface OrderService {
                                          String direction);
 
     Map<Object, Object> fetchBuyerOrders(User user,
-                           int page,
-                           int size,
-                           String direction);
+                                         int page,
+                                         int size,
+                                         String direction);
+
+    OrderItem updateOrderItem(OrderItem orderItem);
+
+    OrderItem OrderItemById(String orderItemId);
 }

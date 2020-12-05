@@ -41,7 +41,8 @@ public class JwtFilter extends GenericFilterBean {
                     new AntPathRequestMatcher("/cart"),
                     new AntPathRequestMatcher("/order"),
                     new AntPathRequestMatcher("/order/store"),
-                    new AntPathRequestMatcher("/order/buyer"))
+                    new AntPathRequestMatcher("/order/buyer"),
+                    new AntPathRequestMatcher("/order/*/status"))
 
     );
 
