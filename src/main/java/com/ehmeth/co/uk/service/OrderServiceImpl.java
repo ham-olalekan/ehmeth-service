@@ -8,18 +8,24 @@ import com.ehmeth.co.uk.db.models.order.Order;
 import com.ehmeth.co.uk.db.models.order.OrderItem;
 import com.ehmeth.co.uk.db.models.order.OrderItemStatus;
 import com.ehmeth.co.uk.db.models.product.Product;
+import com.ehmeth.co.uk.db.models.store.Store;
 import com.ehmeth.co.uk.db.repository.OrderItemRepository;
 import com.ehmeth.co.uk.db.repository.OrderRepository;
 import com.ehmeth.co.uk.events.OrderCreationEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -30,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemRepository orderItemRepository;
     private OrderRepository orderRepository;
     private ApplicationEventPublisher publisher;
+
     @Autowired
     public OrderServiceImpl(ProductService productService,
                             OrderRepository orderRepository,
@@ -129,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
-     *Generates an alphanumeric string
+     * Generates an alphanumeric string
      *
      * @return
      */
@@ -140,17 +147,59 @@ public class OrderServiceImpl implements OrderService {
         StringBuilder alphaNumericString = new StringBuilder(6);
 
         for (int i = 0; i < 3; i++) {
-            int index = (int)(alphaString.length()
+            int index = (int) (alphaString.length()
                     * Math.random());
             alphaNumericString.append(alphaString
                     .charAt(index));
         }
         for (int i = 0; i < 3; i++) {
-            int index = (int)(numericString.length()
+            int index = (int) (numericString.length()
                     * Math.random());
             alphaNumericString.append(numericString
                     .charAt(index));
         }
         return alphaNumericString.toString();
+    }
+
+    @Override
+    public Map<Object, Object> fetchStoreOrders(Store store,
+                                            int page,
+                                            int size,
+                                            String direction) {
+
+        Sort.Direction dir;
+        if ("asc".equalsIgnoreCase(direction)) {
+            dir = Sort.Direction.ASC;
+        } else {
+            dir = Sort.Direction.DESC;
+        }
+
+        PageRequest request = PageRequest.of(page, size, Sort.by(dir, "updatedAt"));
+        Page<OrderItem> storeOrdersPage = orderItemRepository.findByStoreId(store.getStoreId(), request);
+        Map<Object, Object> storeProductPage = new HashMap<>();
+        storeProductPage.put("totalStoreOrders", storeOrdersPage.getTotalElements());
+        storeProductPage.put("totalOrdersOnPage", storeOrdersPage.getNumberOfElements());
+        storeProductPage.put("totalPages", storeOrdersPage.getTotalPages());
+        storeProductPage.put("orders", storeOrdersPage.getContent());
+
+        return storeProductPage;
+    }
+
+    @Override
+    public Map<Object, Object> fetchBuyerOrders(User user, int page, int size, String direction) {
+        Sort.Direction dir;
+        if ("asc".equalsIgnoreCase(direction)) {
+            dir = Sort.Direction.ASC;
+        } else {
+            dir = Sort.Direction.DESC;
+        }
+        PageRequest request = PageRequest.of(page, size, Sort.by(dir, "updatedAt"));
+        Page<Order> userOrder = orderRepository.findByBuyerId(user.getId(), request);
+        Map<Object, Object> buyerOrderPage = new HashMap<>();
+        buyerOrderPage.put("totalBuyerOrders", userOrder.getTotalElements());
+        buyerOrderPage.put("totalBuyerOnPage", userOrder.getNumberOfElements());
+        buyerOrderPage.put("totalPages", userOrder.getTotalPages());
+        buyerOrderPage.put("orders", userOrder.getContent());
+        return buyerOrderPage;
     }
 }
