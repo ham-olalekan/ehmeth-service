@@ -64,12 +64,13 @@ public class OrderController {
                                                                        @RequestParam(name = "page", defaultValue = "0") int page,
                                                                        @RequestParam(name = "size", defaultValue = "50") int size,
                                                                        @RequestParam(name = "direction", defaultValue = "desc") String direction,
-                                                                       @RequestParam(name = "status")OrderItemStatus status) {
+                                                                       @RequestParam(name = "status", required=false)OrderItemStatus status) {
         String userId = principal.getName();
         User user = userService.getUserById(userId);
         if (!user.getRole().isSeller()) {
             return new ResponseEntity(new ApiResponseJson(false, "Un-Authorized Seller", null), HttpStatus.UNAUTHORIZED);
         }
+
         Store store = storeService.findByStoreId(user.getStoreId()).orElseThrow(() -> new NotFoundException("Store with ID: [" + user.getStoreId() + "] not found"));
         return new ResponseEntity(new ApiResponseJson(true, "successful", orderService.fetchStoreOrders(store, page, size, direction,status)), HttpStatus.OK);
     }
