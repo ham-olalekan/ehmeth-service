@@ -1,6 +1,7 @@
 package com.ehmeth.co.uk.service;
 
 import com.ehmeth.co.uk.Exceptions.NotFoundException;
+import com.ehmeth.co.uk.db.models.ProductCategory;
 import com.ehmeth.co.uk.db.models.product.Product;
 import com.ehmeth.co.uk.db.models.product.ProductPageModel;
 import com.ehmeth.co.uk.db.models.store.Store;
@@ -28,16 +29,19 @@ public class ProductServiceImpl implements ProductService {
     private StoreService storeService;
     private ProductCategoryRepository repo;
     private ProductSubCategoryRepository subCategoryRepository;
+    private CategoryService categoryService;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,
                               StoreService storeService,
                               ProductCategoryRepository category,
-                              ProductSubCategoryRepository subCategoryRepository) {
+                              ProductSubCategoryRepository subCategoryRepository,
+                              CategoryService categoryService) {
         this.productRepository = productRepository;
         this.storeService = storeService;
         this.repo = category;
         this.subCategoryRepository = subCategoryRepository;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -71,10 +75,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public Map<Object, Object> fetchAllProducts(final int page,
-                                                final int size) {
-
+                                                final int size,
+                                                final String categoryId) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
-        Page<Product> productPages = productRepository.findAll(pageRequest);
+        Page<Product> productPages;
+        if(StringUtil.isBlank(categoryId)){
+            productPages = productRepository.findAll(pageRequest);
+        }else {
+            productPages = productRepository.findAllByCategoryId(categoryId, pageRequest);
+        }
         List<ProductPageModel> productPageModels = new ArrayList<>();
         Map<Object, Object> productPage = new HashMap<>();
         productPage.put("totalProducts", productPages.getTotalElements());
@@ -95,6 +104,7 @@ public class ProductServiceImpl implements ProductService {
         } else {
             storeName = store.get().getStoreName();
         }
+
         return new ProductPageModel(
                 product.getId(),
                 storeName,
@@ -102,6 +112,9 @@ public class ProductServiceImpl implements ProductService {
                 product.getEnglishName(),
                 product.getPricingType().getPrettyName(),
                 "image.jpeg",
+                product.getCategoryName(),
+                product.getCategoryId(),
+                product.getDescription(),
                 product.getPriceValue(),
                 0,
                 product.getQuantity()

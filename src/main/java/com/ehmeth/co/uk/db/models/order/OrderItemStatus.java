@@ -1,10 +1,10 @@
 package com.ehmeth.co.uk.db.models.order;
 
 public enum OrderItemStatus {
-    PENDING,
+    AWAITING_APPROVAL,
     APPROVED,
     DECLINED,
-    PROCESSED,
+    PACKAGED,
     SHIPPED,
     DELIVERED
 }

@@ -14,7 +14,8 @@ public interface ProductService {
                                            final String storeId);
 
     Map<Object, Object> fetchAllProducts(final int page,
-                                         final int size);
+                                         final int size,
+                                         final String categoryId);
 
     ProductPageModel productToPageModel(Product product);
 
@@ -23,4 +24,7 @@ public interface ProductService {
     Product editProduct(String productId,
                         Product product);
     Optional<Product> getById(final String productId);
+
+
+
 }

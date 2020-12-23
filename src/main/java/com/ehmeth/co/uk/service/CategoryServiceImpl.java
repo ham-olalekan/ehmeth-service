@@ -56,4 +56,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<ProductCategory> fetchAllCategories(){
         return productCategoryRepository.findAll();
     }
+
+    @Override
+    public ProductCategory findProductCategory(String categoryId) {
+        return productCategoryRepository.findById(categoryId).orElseThrow(()-> new NotFoundException("No product category found for ID["+ categoryId+"]"));
+    }
 }

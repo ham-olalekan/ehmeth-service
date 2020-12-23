@@ -59,9 +59,10 @@ public class ProductsController {
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponseJson> handleGettingOfAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                                      @RequestParam(name = "size", defaultValue = "20") int size){
+                                                                      @RequestParam(name = "size", defaultValue = "20") int size,
+                                                                      @RequestParam(name = "categoryId", required = false) final String categoryId){
         log.info("List of all products");
-        return new ResponseEntity(new ApiResponseJson(true, "successful", productService.fetchAllProducts(page, size)), HttpStatus.OK);
+        return new ResponseEntity(new ApiResponseJson(true, "successful", productService.fetchAllProducts(page, size, categoryId)), HttpStatus.OK);
     }
 
     @PutMapping("/{productId}/edit")

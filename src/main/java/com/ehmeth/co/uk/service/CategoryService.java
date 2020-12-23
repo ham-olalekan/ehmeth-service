@@ -13,4 +13,6 @@ public interface CategoryService {
     List<ProductSubCategory> fetchSubCategoriesForCategory(final String categoryId);
 
     List<ProductCategory> fetchAllCategories();
+
+    ProductCategory findProductCategory(final String categoryId);
 }
