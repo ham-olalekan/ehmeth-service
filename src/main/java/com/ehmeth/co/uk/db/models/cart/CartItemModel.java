@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Data
-@NoArgsConstructor
 public class CartItemModel {
     private String productName;
     private String productId;
@@ -20,7 +19,9 @@ public class CartItemModel {
     private int quantity;
     private BigDecimal subTotal;
 
-    @JsonCreator
+    public CartItemModel() {
+    }
+
     public CartItemModel(String productId,
                          String productName,
                          String productImage,

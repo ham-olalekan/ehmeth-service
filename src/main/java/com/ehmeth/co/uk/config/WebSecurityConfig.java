@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/order/store").permitAll()
                 .antMatchers("/order/buyer").permitAll()
                 .antMatchers(HttpMethod.PUT,"/order/*/status").permitAll()
+                .antMatchers(HttpMethod.POST, "/payment").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

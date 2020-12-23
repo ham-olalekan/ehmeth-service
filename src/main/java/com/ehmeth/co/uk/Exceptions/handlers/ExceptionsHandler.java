@@ -4,6 +4,7 @@ package com.ehmeth.co.uk.Exceptions.handlers;
 import com.ehmeth.co.uk.Exceptions.BadRequestException;
 import com.ehmeth.co.uk.Exceptions.NotFoundException;
 import com.ehmeth.co.uk.controller.resources.ApiResponseJson;
+import com.stripe.exception.StripeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,4 +51,10 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ApiResponseJson<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(StripeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> handleStripePaymentException(final StripeException ex) {
+        log.info("Stripe exception occur: Error:::{}",ex.getMessage());
+        return new ResponseEntity<>(new ApiResponseJson<>(false, ex.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
