@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Builder
-@Document(collection = "Store")
+@Document(collection = "store")
 public class Store implements Serializable {
 
     private static long serialVersionUID = 615329941219538710L;

@@ -40,6 +40,10 @@ public class User implements Serializable {
 
     private Date updatedAt;
 
+    private UserStatus userStatus;
+
+    private String userAddressId;
+
     public UserPublicProfile getPublicProfile(){
         return UserPublicProfile
                 .builder()
@@ -47,7 +51,15 @@ public class User implements Serializable {
                 .firstName(this.firstName)
                 .role(this.role)
                 .id(this.id)
+                .build();
+    }
 
+    public UserAdminInfo getUserAdminInfo(){
+        return UserAdminInfo.builder()
+                .fullName(this.lastName + " "+ this.firstName)
+                .phoneNumber(this.phoneNumber)
+                .signupDate(this.createdAt)
+                .email(this.email)
                 .build();
     }
 }

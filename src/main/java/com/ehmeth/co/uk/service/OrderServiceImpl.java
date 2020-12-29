@@ -223,4 +223,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderItem OrderItemById(String orderItemId) {
         return orderItemRepository.findById(orderItemId).orElseThrow(() -> new NotFoundException("orderItem with ID:[" + orderItemId + "] was not found"));
     }
+
+    @Override
+    public long countUserOrders(String userId) {
+        return 0;
+    }
 }

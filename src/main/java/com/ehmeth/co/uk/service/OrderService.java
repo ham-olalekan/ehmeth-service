@@ -27,4 +27,6 @@ public interface OrderService {
     OrderItem updateOrderItem(OrderItem orderItem);
 
     OrderItem OrderItemById(String orderItemId);
+
+    long countUserOrders(String userId);
 }
